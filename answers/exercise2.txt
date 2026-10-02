@@ -1,0 +1,18 @@
+PS C:\Users\Student\Desktop\part12\fs-containers> docker run -it ubuntu bash
+Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+4e07a0f12b2c: Pull complete 
+06ad70e463aa: Pull complete 
+8f70d2bfe91a: Download complete 
+Digest: sha256:3595d7fc4286a33fad0fd853a4063e654287a9c3787437d7937c94ca3f7a804e
+Status: Downloaded newer image for ubuntu:latest
+root@c4d0e46675c1:/# mkdir -p /usr/src/app
+root@c4d0e46675c1:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@c4d0e46675c1:/# ls /usr/src
+app
+root@c4d0e46675c1:/# touch /usr/src/app/index.js
+root@c4d0e46675c1:/# ls /usr/src/app
+index.js
+root@c4d0e46675c1:/# exit
+exit
