@@ -1,0 +1,15 @@
+services:
+  app: # The name of the service, can be anything
+    image: express-server # Declares which image to use
+    build: . # Declares where to build if image is not found
+    ports: # Declares the ports to publish
+      - 3001:3001
+
+      # Now we can use docker compose up to build and run the application. If we want to rebuild the images, we can use:
+      # docker compose up --build
+
+      # You can also run the application in the background with:
+      # docker compose up -d (-d for detached)
+
+# and close it with:
+# docker compose down
