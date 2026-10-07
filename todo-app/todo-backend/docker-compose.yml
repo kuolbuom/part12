@@ -13,3 +13,75 @@ services:
 
 # and close it with:
 # docker compose down
+
+# run mongo_url
+# $env:MONGO_URL="mongodb://localhost:3456/the_database"; npm run dev
+# this does not work well
+
+# run mongo_url that way works well
+#  $env:MONGO_URL="mongodb://root:example@localhost:3456/the_database?authSource=admin"; npm run dev
+
+# Run docker compose -f docker-compose.dev.yml down --volumes
+# to ensure that nothing is left and start from a clean slate with
+# docker compose -f docker-compose.dev.yml up -d to initialize the database.
+
+# create a normal application user and insert the two todos.
+# docker exec -it todo-backend-mongo-1 mongosh -u root -p example --authenticationDatabase admin
+
+# Inside mongosh, run:
+# use the_database
+
+# Create the normal application user
+# db.createUser({
+#   user: "the_username",
+#   pwd: "the_password",
+#   roles: [
+#     {
+#       role: "dbOwner",
+#       db: "the_database",
+#     },
+#   ],
+# });
+
+# Create the todos collection
+# db.createCollection("todos");
+
+# Insert the initial todos
+# db.todos.insert({ text: "Write code", done: true });
+# db.todos.insert({ text: "Learn about containers", done: false });
+
+# Check that they exist
+# db.todos.find();
+
+# exit
+
+# Start your Node application using the new user
+# Instead of:
+# $env:MONGO_URL="mongodb://root:example@localhost:3456/the_database?authSource=admin"; npm run dev
+# Use:
+# $env:MONGO_URL="mongodb://the_username:the_password@localhost:3456/the_database"; npm run dev
+# The application is now using the normal database user, not the MongoDB superuser.
+
+# Check the user
+# db.getUsers();
+
+# test the username/password directly
+# docker exec -it todo-backend-mongo-1 mongosh -u the_username -p the_password --authenticationDatabase the_database
+
+# find where MONGO_URL is used
+# Get-ChildItem -Recurse -File | Select-String "MONGO_URL"
+
+# Because dockerfileapp-mongo-1 is already using port 3456, we need to stop that practice container first.
+# docker stop dockerfileapp-mongo-1
+
+# Your correct container is running:
+# todo-backend-mongo-1
+
+# But its PORTS says only:
+# 27017/tcp
+
+# There is no 3456:27017 mapping.
+# That means MongoDB is running inside Docker, but Windows cannot reach it through localhost:3456.
+# Step 1 — check the Compose file
+# Run:
+# Get-Content docker-compose.dev.yml

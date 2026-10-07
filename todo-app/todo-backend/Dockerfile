@@ -18,3 +18,6 @@ CMD ["npm", "start"]
 # containerizing the application with the following command
 # docker build -t express-server .
 # docker run -p 3124:3001 express-server
+
+# check the container name with the following command
+# docker ps
