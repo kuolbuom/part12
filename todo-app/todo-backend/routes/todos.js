@@ -8,13 +8,30 @@ router.get("/", async (_, res) => {
   res.send(todos);
 });
 
+const { get, set } = require("../redis");
+
 /* POST todo to listing. */
 router.post("/", async (req, res) => {
   const todo = await Todo.create({
     text: req.body.text,
     done: false,
   });
+
+  // Redis counter
+  const current = await get("added_todos");
+  const count = Number(current || 0) + 1;
+
+  await set("added_todos", count);
+
   res.send(todo);
+});
+
+router.get("/statistics", async (req, res) => {
+  const count = await get("added_todos");
+
+  res.json({
+    added_todos: Number(count || 0),
+  });
 });
 
 const singleRouter = express.Router();
