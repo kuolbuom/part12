@@ -11,13 +11,23 @@ services:
       - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
       - mongo_data:/data/db
       # The above will create a directory called mongo_data to your local filesystem and map it into the container as /data/db
-volumes:
-  mongo_data:
+  # volumes:
+  #   mongo_data:
   # Now the volume is created and managed by Docker. After starting the application:
   # docker compose -f docker-compose.dev.yml up
   # you can list the volumes with:
   #  docker volume ls
-# inspect one of them with:
-# docker volume inspect
-#  and even delete them with:
-# docker volume rm
+  # inspect one of them with:
+  # docker volume inspect
+  #  and even delete them with:
+  # docker volume rm
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mongo_data:
+  redis_data:
