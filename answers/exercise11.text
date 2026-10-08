@@ -1,0 +1,25 @@
+PS C:\Users\Student\Desktop\part12\fs-containers\todo-app\todo-backend> docker compose -f docker-compose.dev.yml up -d
+WARN[0000] Found orphan containers (todo-backend-app-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up. 
+[+] up 2/2
+ ✔ Container todo-backend-mongo-1 Running                               0.0s ✔ Container todo-backend-redis-1 Running                               0.0sPS C:\Users\Student\Desktop\part12\fs-containers\todo-app\todo-backend> docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS             PORTS                                           NAMES
+3d5058bf2640   redis          "docker-entrypoint.s…"   3 hours ago    Up Abodis-1
+1487db92eb4a   mongo          "docker-entrypoint.s…"   25 hours ago   Up About an hour   0.0.0.0:3456->27017/tcp, [::]:3456->27017/tcp   todo-backend-mongo-1
+265119b52bda   d2d26f9613c6   "docker-entrypoint.s…"   2 days ago     Up 2 days          0.0.0.0:3124->3001/tcp, [::]:3124->3001/tcp     heuristic_pike
+5d9695322f6d   ubuntu         "bash"                   3 days ago     Up 3 days                                                          blissful_wiles
+48d9eed534a0   ubuntu         "bash"                   3 days ago     Up 3 days                                                          heuristic_torvalds
+a8ca8897ca6b   ubuntu         "bash"                   3 days ago     Up 3 days                                                          frosty_yonath
+PS C:\Users\Student\Desktop\part12\fs-containers\todo-app\todo-backend> docker exec -it todo-backend-redis-1 redis-cli
+127.0.0.1:6379> KEYS *
+(empty array)
+127.0.0.1:6379> SET added_todos 9001
+OK
+127.0.0.1:6379> GET adde_todos
+(nil)
+127.0.0.1:6379> GET added_todos
+"9001"
+127.0.0.1:6379> DEL added_todos
+(integer) 1
+127.0.0.1:6379> KEYS *
+(empty array)
+127.0.0.1:6379> 
