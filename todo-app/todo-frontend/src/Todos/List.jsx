@@ -1,5 +1,7 @@
 import React from "react";
 
+import Todo from "./Todo";
+
 const TodoList = ({ todos, deleteTodo, completeTodo }) => {
   const onClickDelete = (todo) => () => {
     deleteTodo(todo);
@@ -41,7 +43,7 @@ const TodoList = ({ todos, deleteTodo, completeTodo }) => {
                 margin: "auto",
               }}
             >
-              <span>{todo.text}</span>
+              <Todo key={todo.id} todo={todo} />
               {todo.done ? doneInfo : notDoneInfo}
             </div>
           );
