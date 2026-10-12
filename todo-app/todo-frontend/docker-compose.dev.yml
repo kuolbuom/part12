@@ -1,0 +1,17 @@
+services:
+  app:
+    image: todo-frontend-dev
+    build:
+      context: . # The context will pick this directory as the "build context"
+      dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
+    volumes:
+      - ./:/usr/src/app # The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
+      - /usr/src/app/node_modules
+    ports:
+      - 5173:5173
+    container_name: todo-frontend-dev # This will name the container todo-frontend-dev
+
+
+# docker compose -f docker-compose.dev.yml up can run the application in development mode.
+
+# Installing new dependencies is a headache for a development setup like this. One of the better options is to install the new dependency inside the container. So instead of doing e.g. npm install axios, you have to do it in the running container e.g. docker exec todo-frontend-dev npm install axios, or add it to the package.json and run docker build again.

@@ -21,3 +21,28 @@ CMD ["npm", "start"]
 
 # check the container name with the following command
 # docker ps
+
+# 2. Start MongoDB and Redis
+# If you already have docker-compose.dev.yml in todo-backend, run:
+# docker compose -f docker-compose.dev.yml up -d
+
+
+# The -d means run the containers in the background.
+# Check that they are running:
+# docker ps
+
+
+# You should see your MongoDB container and, if configured in Compose, your Redis container.
+# 3. Start your backend
+# Still in todo-backend, run:
+# npm start
+
+
+# Keep this terminal open.
+# 4. Start your frontend
+# Open another VS Code terminal and navigate to todo-frontend:
+# cd ..\todo-frontend
+# docker compose -f docker-compose.dev.yml up --build
+
+
+# Open http://localhost:5173.
