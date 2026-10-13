@@ -33,6 +33,7 @@ CMD ["npm", "run", "dev", "--", "--host"]
 
   # Stop and remove the old frontend container
   # docker rm -f todo-frontend-dev
+  # docker rm -f reverse-proxy
 
   # list all
   # docker ps
