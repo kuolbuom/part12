@@ -6,6 +6,7 @@ FROM node:24 AS build-stage
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+
 RUN npm ci
 
 COPY . .
@@ -15,7 +16,7 @@ RUN npm test
 
 
 # Set before the Vite production build
-ENV VITE_BACKEND_URL=http://localhost:3001
+ENV VITE_BACKEND_URL=/api
 
 # Build production-ready frontend files
 RUN npm run build

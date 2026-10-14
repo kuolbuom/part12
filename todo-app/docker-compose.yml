@@ -1,0 +1,74 @@
+services:
+  app:
+    image: todo-front
+    build:
+      context: ./todo-frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+  backend:
+    image: todo-backend
+    build:
+      context: ./todo-backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      MONGO_URL: mongodb://the_username:the_password@mongo:27017/the_database?authSource=the_database
+      REDIS_URL: redis://redis:6379
+      PORT: 3000
+    depends_on:
+      - mongo
+      - redis
+
+  nginx:
+    image: nginx:1.29-alpine
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+      - backend
+
+  mongo:
+    image: mongo:9
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: the_username
+      MONGO_INITDB_ROOT_PASSWORD: the_password
+      MONGO_INITDB_DATABASE: the_database
+    volumes:
+      - mongo_data:/data/db
+      - ./todo-backend/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mongo_data:
+  redis_data:
+
+# First, check that Compose can read the configuration:
+# docker compose config
+# Then build both application images:
+# docker compose build
+# Start the production containers:
+# docker compose up -d
+# Check their status:
+# docker compose ps
+# View the logs if a service fails:
+# docker compose logs --tail=100
+# Or inspect one service at a time:
+# docker compose logs backend
+# docker compose logs nginx
+# docker compose logs app
+# You can also test the API from PowerShell:
+# Invoke-RestMethod http://localhost:8080/api/todos
+# If the endpoint returns your todos, Nginx is forwarding API requests successfully.
